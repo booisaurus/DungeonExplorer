@@ -2,46 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DungeonExplorer;
 
 namespace DungeonExplorer
 {
     public class Monster
     {
-        public int MonsterHealth { get; set; }
-        public string MonsterName { get; set; }
-        public bool InRoom = false;
+        public MonsterList roster;
+        public int MonHealth { get; }
+        public string MonName { get; }
+        public int MonDmg { get; }
+        public int Challenge { get; }
 
-        public Monster(string monsterName, int monsterHealth)
+        public Monster(string monsterName, int monsterHealth, int monsterDmg, int monsterChal)
         {
-            // creatuing monster/ monsters plural for later development
-            this.MonsterName = monsterName;
-            this.MonsterHealth = monsterHealth;
-        }
+            // creating monster/ monsters plural for later development
+            this.MonName = monsterName;
+            this.MonHealth = monsterHealth;
+            this.MonDmg = monsterDmg;
+            this.Challenge = monsterChal;
 
-        public bool GetPresent()
-        {
-            // allows for you to know whether you are in the same room as the monster
-            return this.InRoom;
         }
-        public int GetHealth()
-        {
-            // gets the health of monster
-            return this.MonsterHealth;
-        }
-
-        public string TakingDamage(int damage)
-        {
-            // this is where the monster takes damage
-            this.MonsterHealth -= damage;
-            return $"Your attack lands on the monster dealing {damage} damage, it has {this.MonsterHealth} HP remaining";
-        }
-
-        public string AttackDamage(Player player)
-        {
-            // this is where you take damage and the game informs you
-            int damage = 15;
-            player.TakeDamage(damage);
-            return $"You have been hit and take {damage} damage!!";
-        }
+        
     }
 }

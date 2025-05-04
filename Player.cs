@@ -1,46 +1,94 @@
 using System.Collections.Generic;
+using System.Net.Mail;
+using DungeonExplorer;
 
 namespace DungeonExplorer
 {
-    public class Player
+    public class Player : Creature
     {
-        public Monster monster;
-        public Sword sword;
-        public string Name { get; private set; }
-        public int PlayerHealth { get; private set; }
-        private List<string> inventory = new List<string>();
+        public bool CanAttack = false;
+        
+        public string Name 
+        { 
+            get {return name; } 
+            set
+            {
+                bool getName = true;
+                while (getName == true)
+                {
+                    if (value.Length > 15)
+                    {
+                        Console.WriteLine("Please enter a shorter name: \n");
+                        value = Console.ReadLine();
+                    }
+                    else
+                    {
+                        name = value;
+                        getName = false;
+                    }
+                }
+            }
+        }
+        public int PlayerHealth 
+        {
+            get { return health; } 
+            set
+            {
+                if (value >= PlayerHealthMax)
+                {
+                    Console.WriteLine("Health is full");
+                    health = PlayerHealthMax;
+                }
+                else if (value <= 0)
+                {
+                    CreatureAlive = false;
+                }
+                else
+                {
+                    health = value;
+                }
+            }
+        }
+        public int PlayerHealthMax { get; }
+        public Inventory Inventory { get; set; }
 
-        public Player(string name, int health) 
+        public Player(string name, int health, int playerMax, Inventory inventory) : base(name, health)
         {
             // creating player
-            Name = name;
-            PlayerHealth = health;
+            this.Name = name;
+            this.PlayerHealth = health;
+            this.PlayerHealthMax = playerMax;
+            this.Inventory = inventory;
+
+        }
+
+        public void EnterName()
+        {
+            Console.WriteLine("What is your name? \nName: ");
+            Name = Console.ReadLine();
         }
         public void PickUpItem(string item)
         {
             // unfortunately haven't touched on this because i started to late
             // but this is where you would add items to your bag which you can take for later
         }
-        public string InventoryContents()
-        {
-            // inventory context
-            return string.Join(", ", inventory);
-        }
         public int GetHealth()
         {
             // where health is grabbed for other codes
-            return this.PlayerHealth;
+            return PlayerHealth;
         }
 
         public void Attack()
         {
+            //CanAttack = monster.GetPresent();
+            Console.WriteLine(CanAttack);
             // this is for the combat setting of the game
-            if (monster.GetPresent() == true) // cannnot figure out why this keeps creating an error during testing
+            if (CanAttack == true) // cannnot figure out why this keeps creating an error during testing
             {
                 // dealing damage to monster
-                monster.TakingDamage(sword.Damage);
+                //monster.TakingDamage(weapon.Damage);
             }
-            else
+            else if (CanAttack == false)
             {
                 //comical text for whenever you are not in the same room as the monster and try to fight
                 Console.WriteLine("You swing your sword around but there is nothing");
