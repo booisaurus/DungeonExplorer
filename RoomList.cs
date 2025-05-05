@@ -1,45 +1,48 @@
+﻿using DungeonExplorer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using DungeonExplorer;
 
 namespace DungeonExplorer
 {
+    /// <summary>
+    /// This class contains the rooms that the player can encounter when they are exploring the game map
+    /// </summary>
     public class RoomList
     {
-        public Room[] InRoom { get; }
-        public Room[] NotInRoom { get; }
-        //public static Room[] Temp1 { get; set; }
-        //private static Room[] Temp2 { get; set; }
-        //public Room[] RoomArea { get; }
-        public static Room[][] RoomArray { get; set; }
-
-        public RoomList()
+        public static Room[] WithMonster { get; }
+        public static Room[] WithoutMonster { get; }
+        public static Room[][] RoomArrays { get; }
+        static RoomList()
         {
-            List<Room> roomList = new List<Room>();
+            List<Room> rooms = new List<Room>();
+            
+            rooms.Add(new Room("Collapsed Ceiling", 1));
+            rooms.Add(new Room("Treasure Room", 1));
+            rooms.Add(new Room("Spa Room", 1));
 
-            roomList.Add(new Room("Moss Room", 0));
-            roomList.Add(new Room("Dim Cobble Room", 0));
-            roomList.Add(new Room("Collapsed Ceiling", 1));
-            roomList.Add(new Room("Treasure Room", 1));
+            rooms.Add(new Room("Dim Cobble Room", 2));
+            rooms.Add(new Room("Moss Room", 2));
+            rooms.Add(new Room("Wildlide Room", 2));
 
-            var MTrue = roomList.Where(x => x.MonsterPresent == 1);
-            InRoom = MTrue.ToArray();
-            //Temp1 = MTrue.ToArray();
+            rooms.Add(new Room("Lantern Room", 1));
+            rooms.Add(new Room("Frozen Room", 1));
+            rooms.Add(new Room("Light Room", 2));
 
-            var MFalse = roomList.Where(x => x.MonsterPresent == 0);
-            NotInRoom = MFalse.ToArray();
-            //Temp2 = MFalse.ToArray();
 
-            //var PlaceList = Temp1.Concat(Temp2);
-            //RoomArea = PlaceList.ToArray();
+            var Temp1 = rooms.Where(x => x.MonsterPresent == 2);
+            WithMonster = Temp1.ToArray();
 
-            RoomArray = new Room[2][];
-            RoomArray[0] = InRoom;
-            RoomArray[1] = NotInRoom;
-            //RoomArray[2] = RoomArea;
+            var Temp2 = rooms.Where(x => x.MonsterPresent == 1);
+            WithoutMonster = Temp2.ToArray();
+
+            RoomArrays = new Room[3][];
+            RoomArrays[0] = WithMonster;
+            RoomArrays[1] = WithoutMonster;
+            RoomArrays[2] = WithMonster.Concat(WithoutMonster).ToArray();
         }
     }
 }

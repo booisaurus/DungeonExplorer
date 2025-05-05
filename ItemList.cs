@@ -17,19 +17,19 @@ namespace DungeonExplorer
         {
             List<Items> itemlist = new List<Items>();
 
-            itemlist.Add(new Weapons("Basic Sword", 0, 2));
+            itemlist.Add(new Weapons("Basic Sword", 0, 5, 3));
 
             itemlist.Add(new Medicine("[EMPTY]", 0, 0));
-            itemlist.Add(new Medicine("Small potion", 0, 3));
+            itemlist.Add(new Medicine("Small potion", 0, 5));
 
             //------------------------------------------------------------------
             // These would come later because as of handing this is,
             //  i had only completed the intro to the game to a complete level
-            itemlist.Add(new Weapons("Sharp Sword", 1, 4));
-            itemlist.Add(new Weapons("sythe", 2, 6));
+            itemlist.Add(new Weapons("Sharp Sword", 1, 8, 5));
+            itemlist.Add(new Weapons("sythe", 2, 11, 7));
 
-            itemlist.Add(new Medicine("Bigger potion", 1, 5));
-            itemlist.Add(new Medicine("Best potion", 2, 10));
+            itemlist.Add(new Medicine("Bigger potion", 1, 10));
+            itemlist.Add(new Medicine("Best potion", 2, 20));
             //------------------------------------------------------------------
 
             

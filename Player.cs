@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using DungeonExplorer;
 
 namespace DungeonExplorer
 {
-    public class Player : Creature
+    public class Player : Creature, IDMG
     {
-        public bool CanAttack = false;
+
         
         public string Name 
         { 
@@ -18,7 +19,7 @@ namespace DungeonExplorer
                 {
                     if (value.Length > 15)
                     {
-                        Console.WriteLine("Please enter a shorter name: \n");
+                        Console.WriteLine("Please enter a shorter name:");
                         value = Console.ReadLine();
                     }
                     else
@@ -36,7 +37,7 @@ namespace DungeonExplorer
             {
                 if (value >= PlayerHealthMax)
                 {
-                    Console.WriteLine("Health is full");
+                    //Console.WriteLine("Health is full");
                     health = PlayerHealthMax;
                 }
                 else if (value <= 0)
@@ -56,8 +57,9 @@ namespace DungeonExplorer
         {
             // creating player
             this.Name = name;
-            this.PlayerHealth = health;
             this.PlayerHealthMax = playerMax;
+            this.PlayerHealth = health;
+            //Console.WriteLine($"{this.PlayerHealth}, {health}");
             this.Inventory = inventory;
 
         }
@@ -74,31 +76,86 @@ namespace DungeonExplorer
         }
         public int GetHealth()
         {
-            // where health is grabbed for other codes
-            return PlayerHealth;
+            return this.PlayerHealth;
         }
 
-        public void Attack()
+        public void Battle(Creature opponent)
         {
-            //CanAttack = monster.GetPresent();
-            Console.WriteLine(CanAttack);
-            // this is for the combat setting of the game
-            if (CanAttack == true) // cannnot figure out why this keeps creating an error during testing
+            List<string> actions = ["fight", "heal", "info"];
+            Monster attacker = opponent as Monster;
+
+            Console.WriteLine($"Your engage in combat with the {attacker.MonName}");
+            Console.WriteLine(@"What would you like to do?
+    - Fight [fight]
+    - Heal [heal]
+    - Info [info]
+            ");
+
+            bool go = true;
+            while(go)
             {
-                // dealing damage to monster
-                //monster.TakingDamage(weapon.Damage);
+                string input = PlayerInput(actions);
+                if(input == "fight")
+                {
+                    Attack(ref opponent);
+                    break;
+                }
+
+                else if(input == "heal")
+                {
+                    Inventory.Heal();
+                    Battle(opponent);
+                }
+
+                else if(input == "info")
+                {
+                    Console.WriteLine($@"
+    Name: {attacker.MonName}
+    HP: {attacker.MonHealth}
+                    ");
+                    Battle(opponent);
+                }
+
             }
-            else if (CanAttack == false)
+
+        }
+        public void Attack(ref Creature opponent)
+        {
+            Monster attacker = opponent as Monster;
+            attacker.MonHealth -= Inventory.WeaponsBag[0].Damage;
+
+            Console.WriteLine($"You have struck the {attacker.MonName} for {Inventory.WeaponsBag[0].Damage}");
+            if (attacker.MonHealth < 0)
             {
-                //comical text for whenever you are not in the same room as the monster and try to fight
-                Console.WriteLine("You swing your sword around but there is nothing");
+                Console.WriteLine($"The {attacker.MonName} has {attacker.MonHealth} HP remaining");
             }
+            else
+            {
+                Console.WriteLine($"The {attacker.MonName} has 0 HP remaining");
+            }       
         }
 
-        public void TakeDamage(int damage)
+        public void Dead(Creature opponent)
         {
-            // process for changing health after taking damage
-            this.PlayerHealth -= damage;
+            Monster attacker = opponent as Monster;
+            Console.WriteLine($"Sorry, {Name} have defeated the {attacker.MonName}");
+            Console.WriteLine("Game Over");
+        }
+
+        public string PlayerInput(List<string> actions)
+        {
+            string input = Console.ReadLine();
+            bool result = actions.Contains(input);
+            if (!result)
+            {
+                Console.WriteLine("Invalid result");
+                return PlayerInput(actions);
+            }
+            else
+            {
+                return input.ToLower().Trim();
+            }
+
         }
     }
 }

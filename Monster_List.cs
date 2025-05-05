@@ -13,8 +13,10 @@ namespace DungeonExplorer
         static MonsterList()
         {
             List<Monster> monsters = new List<Monster>();
-            monsters.Add(new Monster("Goblin", 75, 15, 1));
-            monsters.Add(new Monster("Ogre", 100, 20, 1));
+            monsters.Add(new Monster("Goblin", 15, 5, 1, 4));
+            monsters.Add(new Monster("Ogre", 20, 10, 2, 2));
+            monsters.Add(new Monster("Rat", 5, 3, 1, 10));
+            monsters.Add(new Monster("Hellhound", 12, 6, 1, 5));
 
             var Mon = monsters.Where(x => x.Challenge == 1);
             EasyMon = Mon.ToArray();

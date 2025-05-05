@@ -61,7 +61,7 @@ namespace DungeonExplorer
                     }
                     else if (input == "fight")
                     {
-                        Player.Attack();
+                        
                     }
                     else if(input == "bag")
                     {
