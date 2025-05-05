@@ -11,7 +11,7 @@ namespace DungeonExplorer
         static void Main(string[] args)
         {
             Console.WriteLine("Game start");
-            Game game = new Game();
+            GameRebuild game = new GameRebuild();
             game.Start();
             Console.WriteLine("Waiting for your Implementation");
             Console.WriteLine("Press any key to exit...");
