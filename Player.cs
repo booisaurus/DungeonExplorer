@@ -125,7 +125,7 @@ namespace DungeonExplorer
             attacker.MonHealth -= Inventory.WeaponsBag[0].Damage;
 
             Console.WriteLine($"You have struck the {attacker.MonName} for {Inventory.WeaponsBag[0].Damage}");
-            if (attacker.MonHealth < 0)
+            if (attacker.MonHealth > 0)
             {
                 Console.WriteLine($"The {attacker.MonName} has {attacker.MonHealth} HP remaining");
             }
